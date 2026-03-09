@@ -608,4 +608,5 @@ CMakeFiles/robot_patrol.dir/src/patrol.cpp.o: \
  /home/simulations/ros2_sims_ws/install/geometry_msgs/include/geometry_msgs/geometry_msgs/msg/detail/vector3__struct.hpp \
  /home/simulations/ros2_sims_ws/install/geometry_msgs/include/geometry_msgs/geometry_msgs/msg/detail/twist__builder.hpp \
  /home/simulations/ros2_sims_ws/install/geometry_msgs/include/geometry_msgs/geometry_msgs/msg/detail/twist__traits.hpp \
- /home/simulations/ros2_sims_ws/install/geometry_msgs/include/geometry_msgs/geometry_msgs/msg/detail/vector3__traits.hpp
+ /home/simulations/ros2_sims_ws/install/geometry_msgs/include/geometry_msgs/geometry_msgs/msg/detail/vector3__traits.hpp \
+ /usr/include/c++/11/math.h

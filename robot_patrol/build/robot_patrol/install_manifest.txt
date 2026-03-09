@@ -1,4 +1,5 @@
 /home/user/ros2_ws/src/citylab_project/robot_patrol/install/robot_patrol/lib/robot_patrol/robot_patrol
+/home/user/ros2_ws/src/citylab_project/robot_patrol/install/robot_patrol/share/robot_patrol//launch/start_patrolling.launch.py
 /home/user/ros2_ws/src/citylab_project/robot_patrol/install/robot_patrol/share/ament_index/resource_index/package_run_dependencies/robot_patrol
 /home/user/ros2_ws/src/citylab_project/robot_patrol/install/robot_patrol/share/ament_index/resource_index/parent_prefix_path/robot_patrol
 /home/user/ros2_ws/src/citylab_project/robot_patrol/install/robot_patrol/share/robot_patrol/environment/ament_prefix_path.sh
