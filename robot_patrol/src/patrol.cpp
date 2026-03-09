@@ -14,11 +14,13 @@ class Patrol:Node{
         direction_ = 0.0;
         
         auto qos = rclcpp::QoS(10).reliability(rclcpp::ReliabilityPolicy::Reliable);
-        scan_sub = rclcpp::create_subscription<sensor_msgs::msg::LaserScan>(
-            "/laser_scan",
+        scan_sub = this->create_subscription<sensor_msgs::msg::LaserScan>(
+            "/fastbot_1/scan",
             qos,
             std::bind(&Patrol::scan_callback, this, std::placeholders::_1)
         );
+
+        twist_pub = this->create_publisher<geometry_msgs::msg::Twist>("/fastbot_1/cmd_vel", 10);
 
         // Setup a timer 
         auto timer_period = std::chrono::milliseconds(100); // 0.1 second
