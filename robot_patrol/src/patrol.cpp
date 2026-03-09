@@ -1,4 +1,5 @@
 #include "rclcpp/create_subscription.hpp"
+#include "rclcpp/create_timer.hpp"
 #include "rclcpp/publisher.hpp"
 #include <functional>
 #include <rclcpp/rclcpp.hpp>
@@ -18,6 +19,10 @@ class Patrol:Node{
             qos,
             std::bind(&Patrol::scan_callback, this, std::placeholders::_1)
         );
+
+        // Setup a timer 
+        auto timer_period = std::chrono::milliseconds(100); // 0.1 second
+        timer_ = this->create_timer(timer_period, std::bind(&Patrol::timer_callback, this));
     };
 
     private:
@@ -33,14 +38,24 @@ class Patrol:Node{
         }
 
         if (min_distance < 35){
-            direction_ = msg->angle_min + min_index * msg->angle_increment;
+            auto new_direction = msg->angle_min + min_index * msg->angle_increment;
+            direction_ = (new_direction != direction_)?new_direction: direction_+0.1;
         }else{
             direction_ = 0;
         }
     };
 
+    void timer_callback(){
+        geometry_msgs::msg::Twist twist_msg;
+        twist_msg.linear.x = 0.1;
+        twist_msg.angular.z = direction_/2;
+        twist_pub->publish(twist_msg);
+    }
+
     // safest direction to move
     float direction_;
+
+    rclcpp::TimerBase::SharedPtr timer_;
 
     rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr scan_sub;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_pub;
