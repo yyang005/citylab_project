@@ -11,6 +11,20 @@ find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
+# Create executable
+add_executable(robot_patrol src/patrol_main.cpp src/patrol.cpp)
+
+target_include_directories(${PROJECT_NAME} PUBLIC include)
+
+# Add dependencies
+ament_target_dependencies(robot_patrol rclcpp sensor_msgs geometry_msgs)
+
+# Install executables
+install(TARGETS
+  robot_patrol
+  DESTINATION lib/${PROJECT_NAME})
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights

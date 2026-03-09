@@ -1,0 +1,8 @@
+[01m[K/home/user/ros2_ws/src/citylab_project/robot_patrol/src/patrol.cpp:[m[K In constructor '[01m[KPatrol::Patrol()[m[K':
+[01m[K/home/user/ros2_ws/src/citylab_project/robot_patrol/src/patrol.cpp:18:20:[m[K [01;31m[Kerror: [m[K'[01m[Kclass Patrol[m[K' has no member named '[01m[Kcreate_timer[m[K'; did you mean '[01m[Kcreate_wall_timer[m[K'?
+   18 |     timer_ = this->[01;31m[Kcreate_timer[m[K(timer_period, std::bind(&Patrol::timer_callback, this));
+      |                    [01;31m[K^~~~~~~~~~~~[m[K
+      |                    [32m[Kcreate_wall_timer[m[K
+gmake[2]: *** [CMakeFiles/robot_patrol.dir/build.make:90: CMakeFiles/robot_patrol.dir/src/patrol.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/robot_patrol.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

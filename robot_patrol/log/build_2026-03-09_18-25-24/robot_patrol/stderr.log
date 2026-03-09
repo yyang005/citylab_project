@@ -1,0 +1,13 @@
+[01m[K/home/user/ros2_ws/src/citylab_project/robot_patrol/src/patrol_main.cpp:1:10:[m[K [01;31m[Kfatal error: [m[Krobot_patrol/patrol.h: No such file or directory
+    1 | #include [01;31m[K"robot_patrol/patrol.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/user/ros2_ws/src/citylab_project/robot_patrol/src/patrol.cpp:1:10:[m[K [01;31m[Kfatal error: [m[Krobot_patrol/patrol.h: No such file or directory
+    1 | #include [01;31m[K"robot_patrol/patrol.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+compilation terminated.
+gmake[2]: *** [CMakeFiles/robot_patrol.dir/build.make:76: CMakeFiles/robot_patrol.dir/src/patrol_main.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[2]: *** [CMakeFiles/robot_patrol.dir/build.make:90: CMakeFiles/robot_patrol.dir/src/patrol.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/robot_patrol.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2
