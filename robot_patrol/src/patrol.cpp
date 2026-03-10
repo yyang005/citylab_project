@@ -43,7 +43,8 @@ void Patrol::scan_callback(sensor_msgs::msg::LaserScan::ConstSharedPtr msg){
     }
 
     int side = (msg->ranges.size())/5;
-    float safe_side_dis = 0.1;
+    float safe_side_dis = 0.2;
+    bool close_to_left = false, close_to_right = false;
     // check if it is too close to left fence
     for (int i = 0; i <= side; i++){
         if (!std::isfinite(msg->ranges[i]) 
@@ -51,7 +52,7 @@ void Patrol::scan_callback(sensor_msgs::msg::LaserScan::ConstSharedPtr msg){
             || msg->ranges[i] > msg->range_max) continue; // discard invalid scans
 
         if (msg->ranges[i] < safe_side_dis) {
-            is_blocked = true;
+            close_to_left = true;
             break;
         }
     }
@@ -62,7 +63,7 @@ void Patrol::scan_callback(sensor_msgs::msg::LaserScan::ConstSharedPtr msg){
             || msg->ranges[i] > msg->range_max) continue; // discard invalid scans
 
         if (msg->ranges[i] < safe_side_dis) {
-            is_blocked = true;
+            close_to_right = true;
             break;
         }
     }
@@ -91,6 +92,10 @@ void Patrol::scan_callback(sensor_msgs::msg::LaserScan::ConstSharedPtr msg){
 
         auto new_direction = msg->angle_min + max_index * msg->angle_increment;
         direction_ = (new_direction != direction_)?new_direction: direction_+0.1;
+    }else if (close_to_left){
+        direction_ = 0.17;
+    }else if (close_to_right){
+        direction_ = -0.17;
     }else{
         direction_ = 0; // move forward
     }
