@@ -24,7 +24,7 @@ Patrol::Patrol():Node("Patrol_node"){
 
 void Patrol::scan_callback(sensor_msgs::msg::LaserScan::ConstSharedPtr msg){
     // Get the front 180 degree rays
-    float front_angle = 0.34;
+    float front_angle = 0.25;
     int start_index = (-front_angle - msg->angle_min) / msg->angle_increment;
     int end_index   = ( front_angle - msg->angle_min) / msg->angle_increment;
     start_index = std::max(0, start_index);
