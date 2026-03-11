@@ -83,7 +83,7 @@ void Patrol::scan_callback(sensor_msgs::msg::LaserScan::ConstSharedPtr msg){
     // }
 
     if (is_blocked){
-        direction_ = best_angle;
+        direction_ = best_angle*2;
     }else{
         direction_ = 0; // move forward
         // if (close_to_left ) direction_ = -0.1;
