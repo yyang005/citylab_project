@@ -1,5 +1,6 @@
 #include "robot_patrol/patrol.h"
 #include "rclcpp/logging.hpp"
+#include <cstddef>
 #include <math.h>
 
 Patrol::Patrol():Node("Patrol_node"){
@@ -23,7 +24,7 @@ Patrol::Patrol():Node("Patrol_node"){
 
 void Patrol::scan_callback(sensor_msgs::msg::LaserScan::ConstSharedPtr msg){
     // Get the front 180 degree rays
-    float front_angle = 0.17;
+    float front_angle = 0.34;
     int start_index = (-front_angle - msg->angle_min) / msg->angle_increment;
     int end_index   = ( front_angle - msg->angle_min) / msg->angle_increment;
     start_index = std::max(0, start_index);
@@ -42,31 +43,31 @@ void Patrol::scan_callback(sensor_msgs::msg::LaserScan::ConstSharedPtr msg){
         }
     }
 
-    int side = (msg->ranges.size())/5;
-    float safe_side_dis = 0.2;
-    bool close_to_left = false, close_to_right = false;
-    // check if it is too close to left fence
-    for (int i = 0; i <= side; i++){
-        if (!std::isfinite(msg->ranges[i]) 
-            || msg->ranges[i] < msg->range_min 
-            || msg->ranges[i] > msg->range_max) continue; // discard invalid scans
+    // int side = (msg->ranges.size())/5;
+    // float safe_side_dis = 0.2;
+    // bool close_to_left = false, close_to_right = false;
+    // // check if it is too close to left fence
+    // for (int i = 0; i <= side; i++){
+    //     if (!std::isfinite(msg->ranges[i]) 
+    //         || msg->ranges[i] < msg->range_min 
+    //         || msg->ranges[i] > msg->range_max) continue; // discard invalid scans
 
-        if (msg->ranges[i] < safe_side_dis) {
-            close_to_left = true;
-            break;
-        }
-    }
-    // check if it is too close to the right fence
-    for (int i = msg->ranges.size()-side; i <= msg->ranges.size(); i++){
-        if (!std::isfinite(msg->ranges[i]) 
-            || msg->ranges[i] < msg->range_min 
-            || msg->ranges[i] > msg->range_max) continue; // discard invalid scans
+    //     if (msg->ranges[i] < safe_side_dis) {
+    //         close_to_left = true;
+    //         break;
+    //     }
+    // }
+    // // check if it is too close to the right fence
+    // for (int i = msg->ranges.size()-side; i < (int)msg->ranges.size(); i++){
+    //     if (!std::isfinite(msg->ranges[i]) 
+    //         || msg->ranges[i] < msg->range_min 
+    //         || msg->ranges[i] > msg->range_max) continue; // discard invalid scans
 
-        if (msg->ranges[i] < safe_side_dis) {
-            close_to_right = true;
-            break;
-        }
-    }
+    //     if (msg->ranges[i] < safe_side_dis) {
+    //         close_to_right = true;
+    //         break;
+    //     }
+    // }
 
     if (is_blocked){
         float max_distance = 0.0;
@@ -91,12 +92,12 @@ void Patrol::scan_callback(sensor_msgs::msg::LaserScan::ConstSharedPtr msg){
         // RCLCPP_INFO(this->get_logger(), "max idx: %d", max_index);
 
         auto new_direction = msg->angle_min + max_index * msg->angle_increment;
-        direction_ = (new_direction != direction_)?new_direction: direction_+0.1;
-    }else if (close_to_left){
-        direction_ = 0.17;
-    }else if (close_to_right){
+        direction_ = 3*new_direction;
+    }/*else if (close_to_left){
         direction_ = -0.17;
-    }else{
+    }else if (close_to_right){
+        direction_ = 0.17;
+    }*/else{
         direction_ = 0; // move forward
     }
 };
