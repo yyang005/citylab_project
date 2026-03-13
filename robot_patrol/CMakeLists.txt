@@ -10,18 +10,50 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "srv/GetDirection.srv"
+   DEPENDENCIES std_msgs sensor_msgs
+)
 
 # Create executable
-add_executable(robot_patrol src/patrol_main.cpp src/patrol.cpp)
+add_executable(robot_patrol_node src/patrol_main.cpp src/patrol.cpp)
+add_executable(robot_patrol_service src/direction_service.cpp)
+add_executable(test_service src/test_service.cpp)
+add_executable(patrol_with_service src/patrol_main.cpp src/patrol_with_service.cpp)
 
-target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_include_directories(robot_patrol_node PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(robot_patrol_service PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(test_service PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(patrol_with_service PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Add dependencies
-ament_target_dependencies(robot_patrol rclcpp sensor_msgs geometry_msgs)
+ament_target_dependencies(robot_patrol_node rclcpp sensor_msgs geometry_msgs rosidl_default_runtime)
+ament_target_dependencies(robot_patrol_service rclcpp sensor_msgs geometry_msgs rosidl_default_runtime)
+ament_target_dependencies(test_service rclcpp sensor_msgs geometry_msgs rosidl_default_runtime)
+ament_target_dependencies(patrol_with_service rclcpp sensor_msgs geometry_msgs rosidl_default_runtime)
+
+# Tell CMake that robot_patrol_service uses the generated service interface
+rosidl_target_interfaces(robot_patrol_service
+  ${PROJECT_NAME} "rosidl_typesupport_cpp"
+)
+rosidl_target_interfaces(robot_patrol_node
+  ${PROJECT_NAME} "rosidl_typesupport_cpp"
+)
+rosidl_target_interfaces(test_service
+  ${PROJECT_NAME} "rosidl_typesupport_cpp"
+)
+rosidl_target_interfaces(patrol_with_service
+  ${PROJECT_NAME} "rosidl_typesupport_cpp"
+)
 
 # Install executables
 install(TARGETS
-  robot_patrol
+  robot_patrol_node
+  robot_patrol_service
+  test_service
+  patrol_with_service
   DESTINATION lib/${PROJECT_NAME})
 
 # Install launch files

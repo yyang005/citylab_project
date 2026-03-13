@@ -5,17 +5,24 @@ import os
 
 
 def generate_launch_description():
+
     rviz_config = os.path.join(
         get_package_share_directory('robot_patrol'),
         'config',
         'robot_patrol.rviz'
     ) 
-
+    
     return LaunchDescription([
         Node(
             package='robot_patrol',
-            executable='robot_patrol_node',
+            executable='robot_patrol_service',
             output='screen'),
+        
+        Node(
+            package='robot_patrol',
+            executable='patrol_with_service',
+            output='screen'),
+
         Node(
             package='rviz2',
             executable='rviz2',
